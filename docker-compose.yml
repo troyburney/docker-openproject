@@ -1,0 +1,26 @@
+version: '3'
+
+services:
+  OpenProject-application:
+    image: openproject/community:8
+    container_name: OpenProject-application
+    restart: always
+    ports:
+      - 16331:80
+    environment:
+      DATABASE_URL: "mysql2://root:AfSnUG6ETo6pXvoUYAf4@OpenProject-database:3306/openproject"
+      SECRET_KEY_BASE: "youshouldoverwritethiswithsomethingelse"
+
+  OpenProject-database:
+    image: mysql:latest
+    container_name: OpenProject-database
+    command: --default-authentication-plugin=mysql_native_password
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: "AfSnUG6ETo6pXvoUYAf4"
+    volumes:
+      - volume-OpenProject-database:/var/lib/mysql
+
+volumes:
+  volume-OpenProject-database:
+    external: true
